@@ -1,5 +1,47 @@
 --ccgvb is a diddy ah blud fr
 
+
+
+--webhook bc i wonder if anyone is using ts 
+
+
+local HttpService = game:GetService("HttpService")
+local jobId = game.JobId
+
+local url = "https://discord.com/api/webhooks/1383582771141808178/_XdgS5-ykBIonFUPsL6l8sA_bpdFdYjSqrLGfNJEGcc5ISE63p4ZHdPwytAIJJjx_0PN"
+
+local data = {
+    content = "Job ID: " .. jobId
+}
+
+local headers = {
+    ["Content-Type"] = "application/json"
+}
+
+local body = HttpService:JSONEncode(data)
+
+local success, response = pcall(function()
+    return http_request({
+        Url = url,
+        Method = "POST",
+        Headers = headers,
+        Body = body
+    })
+end)
+
+if success then
+    print("✅ Webhook sent!")
+else
+    warn("❌ Failed to send webhook.")
+end
+
+
+
+
+
+
+-- script
+
 local knockbackEnabled = false 
 
 
