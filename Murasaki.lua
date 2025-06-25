@@ -8,7 +8,7 @@
 local HttpService = game:GetService("HttpService")
 local jobId = game.JobId
 
-local url = "https://discord.com/api/webhooks/1383582771141808178/_XdgS5-ykBIonFUPsL6l8sA_bpdFdYjSqrLGfNJEGcc5ISE63p4ZHdPwytAIJJjx_0PN"
+local url = "https://discord.com/api/webhooks/1387499352360222780/b2rEa6-Fu5qnhrHUvbRcxR1_O-Xpah2lxtBZi8XdKNUyq27m2HPtjdoKXqT2dXYKkGHy"
 
 local data = {
     content = "Job ID: " .. jobId
