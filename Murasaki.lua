@@ -137,8 +137,8 @@ local flightConnection
 local humanoidRootPart
 local animationTrack
 local animateConnection
-local flightAnimId = "rbxassetid://98089065269079"
-local flightAnimTime = 6.45
+local flightAnimId = "rbxassetid://79717812541463"
+local flightAnimTime = 6.39
 local FLIGHT_SPEED = 60
 local SMOOTHNESS = 0.12
 local currentVelocity = Vector3.zero
