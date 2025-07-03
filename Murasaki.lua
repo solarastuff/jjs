@@ -582,6 +582,116 @@ end
 
 
 
+--items chams
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local folder = workspace:WaitForChild("Items")
+
+local chamFolder = Instance.new("Folder")
+chamFolder.Name = "Chams"
+chamFolder.Parent = workspace
+
+local activeChams = {}
+local chamsEnabled = false -- 🟢 Toggle this to true or false anywhere
+
+local function createFakePart(originalPart)
+	local fake = Instance.new("Part")
+	fake.Name = "FakePart_" .. originalPart:GetDebugId()
+	fake.Size = originalPart.Size * 2
+	fake.CFrame = originalPart.CFrame
+	fake.Anchored = true
+	fake.CanCollide = false
+	fake.Transparency = 1
+	fake.Parent = chamFolder
+	return fake
+end
+
+local function makeCham(part)
+	if activeChams[part] then return end
+
+	local fakePart = createFakePart(part)
+
+	local cham = Instance.new("BoxHandleAdornment")
+	cham.Name = "Cham_" .. part:GetDebugId()
+	cham.Adornee = fakePart
+	cham.AlwaysOnTop = true
+	cham.ZIndex = 5
+	cham.Size = fakePart.Size
+	cham.Transparency = 0.2
+	cham.Color3 = Color3.fromRGB(0, 180, 0)
+	cham.Parent = chamFolder
+
+	activeChams[part] = { fakePart = fakePart, cham = cham }
+end
+
+local function removeCham(part)
+	local data = activeChams[part]
+	if data then
+		if data.cham then data.cham:Destroy() end
+		if data.fakePart then data.fakePart:Destroy() end
+		activeChams[part] = nil
+	end
+end
+
+local function clearAllChams()
+	for part in pairs(activeChams) do
+		removeCham(part)
+	end
+end
+
+local function refreshChams()
+	clearAllChams()
+	if not chamsEnabled then return end
+
+	for _, obj in ipairs(folder:GetDescendants()) do
+		if obj:IsA("BasePart") then
+			makeCham(obj)
+		end
+	end
+end
+
+-- Update loop
+RunService.RenderStepped:Connect(function()
+	if chamsEnabled then
+		for part, data in pairs(activeChams) do
+			if part and part.Parent and data.fakePart and data.cham then
+				data.fakePart.CFrame = part.CFrame
+			else
+				removeCham(part)
+			end
+		end
+	else
+		clearAllChams()
+	end
+end)
+
+-- Watch for new parts
+folder.DescendantAdded:Connect(function(obj)
+	if chamsEnabled and obj:IsA("BasePart") then
+		makeCham(obj)
+	end
+end)
+
+-- Watch for removed parts
+folder.DescendantRemoving:Connect(function(obj)
+	if obj:IsA("BasePart") then
+		removeCham(obj)
+	end
+end)
+
+-- 🔁 Optional: re-check chams state every second
+RunService.Stepped:Connect(function()
+	refreshChams()
+end)
+
+
+
+
+
+
+
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -848,6 +958,16 @@ end)
 Toggle7:OnChanged(function()
    getgenv().blackHoleAntiSuckEnabled = Options.MyToggle7.Value
 end)
+
+	
+local Toggle8 = Tabs.Main:AddToggle("MyToggle8", {Title = "Item chams", Default = false })
+
+Toggle8:OnChanged(function()
+    chamsEnabled = Options.MyToggle8.Value
+end)
+
+
+	
 
 end
 
