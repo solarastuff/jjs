@@ -5226,7 +5226,7 @@ function Library:CreateWindow(WindowInfo)
 
         MainFrame = New("Frame", {
             BackgroundColor3 = function()
-             BackgroundTransparency = 0.5
+             BackgroundTransparency = 0.7
                 return Library:GetBetterColor(Library.Scheme.BackgroundColor, -1)
             end,
             Name = "Main",
