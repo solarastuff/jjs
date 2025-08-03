@@ -407,7 +407,7 @@ local Window = MacLib:Window({
 	Title = "Jumper",
 	Subtitle = "ccgvb",
 	
-	Size = UDim2.fromOffset(300, 240),
+	Size = UDim2.fromOffset(768, 500),
 	
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -507,13 +507,13 @@ button1.Parent = gui1
 -- On Click
 button1.MouseButton1Click:Connect(function()
 	local isshowing = Window:GetState()
-Window:SetState(not isshowing)
+
 
 
 
 end)
 end
-
+Window:SetScale(0.7)
 sections.MainSection1:Toggle({
 	Name = "No Front-Dash cooldown",
 	Default = false,
